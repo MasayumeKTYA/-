@@ -1,0 +1,65 @@
+page {
+  background: #f6f7f9;
+}
+.head {
+  position: relative;
+  width: 702rpx;
+  margin: 20rpx auto;
+}
+.head .avatar {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+}
+.head .conatin {
+  box-shadow: 0 0 10rpx #b3b3b3;
+  border-radius: 24rpx;
+  width: 702rpx;
+  background: #fff;
+  padding-top: 60rpx;
+  padding-bottom: 20rpx;
+}
+.head .conatin .username {
+  font-size: 37rpx;
+  text-align: center;
+}
+.title {
+  margin: 40rpx 0 40rpx 32rpx;
+  font-size: 24rpx;
+  color: #999;
+}
+.box {
+  box-sizing: border-box;
+  padding: 24rpx 32rpx;
+  width: 702rpx;
+  margin: 20rpx auto;
+  background: #fff;
+  border-radius: 24rpx;
+}
+.box .box_data {
+  display: flex;
+  align-items: center;
+  margin-top: 20rpx;
+}
+.box .box_data .left {
+  width: 100rpx;
+  height: 100rpx;
+  background: red;
+  border-radius: 24rpx;
+}
+.box .box_data .right {
+  height: 100rpx;
+  margin-left: 20rpx;
+}
+.box .box_data .right .sing_title {
+  font-size: 28rpx;
+  margin-top: 10rpx;
+}
+.box .box_data .right .sing_num {
+  font-size: 22rpx;
+  margin-top: 20rpx;
+  color: #c0c0c0;
+}
