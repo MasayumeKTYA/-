@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import Audio from "@/component/play.vue";
+import Audio from "@/component/play/play.vue";
 </script>
 
 <style>

@@ -1,6 +1,6 @@
 .audio_box {
   width: 750rpx;
-  height: 60rpx;
+  height: 60px;
   display: flex;
   box-sizing: border-box;
   position: fixed;
@@ -10,14 +10,17 @@
   .title {
     font-size: 26rpx;
     margin-left: 40rpx;
-    width: 500rpx;
+    width: 320rpx;
   }
   .img {
-    width: 50rpx;
-    height: 50rpx;
+    width: 80rpx;
+    height: 80rpx;
     border-radius: 50%;
   }
   .play {
-    margin-left: 60rpx;
+    margin-left: 80rpx;
+  }
+  .list{
+    margin-left: 20rpx;
   }
 }

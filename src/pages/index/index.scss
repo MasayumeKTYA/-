@@ -1,6 +1,15 @@
 page {
   background: #f6f7f9;
 }
+.nav{
+  text-align: center;
+  background: #fff;
+  height: 50px;
+  line-height: 50px;
+  position: fixed;
+  z-index: 11;
+  width: 750rpx;
+}
 .head {
   position: relative;
   width: 702rpx;
