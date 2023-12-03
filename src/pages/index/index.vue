@@ -1,5 +1,4 @@
 <template>
- 
   <view class="nav" :style="{ paddingTop: statusHeight }">首页</view>
   <view :style="{ height: statusHeightNum + 50 + 'px' }"></view>
   <view class="head">
@@ -19,18 +18,17 @@
       </view>
     </view>
   </view>
-  <Audio />
-  <Tab/>
+  <Audio :bottom="true" />
+  <Tab />
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 import Audio from "@/component/play/play.vue";
 import { useNavStore } from "@/stores/nav";
-import  Tab from '@/component/tab/tab.vue'
+import Tab from "@/component/tab/tab.vue";
 const { statusHeight, statusHeightNum } = useNavStore();
 console.log(statusHeight);
-
 </script>
 
 <style lang="scss">
