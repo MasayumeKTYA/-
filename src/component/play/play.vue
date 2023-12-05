@@ -55,7 +55,7 @@ const props = defineProps({
 });
 const innerAudioContext = uni.createInnerAudioContext();
 
-innerAudioContext.src = "/static/bg1.mp3";
+innerAudioContext.src = "/static/bg2.ogg";
 
 innerAudioContext.onError((res) => {
   console.log(res);
