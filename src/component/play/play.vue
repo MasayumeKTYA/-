@@ -113,6 +113,7 @@ function allBox() {
   align-items: center;
   padding: 0 40rpx;
   background-color: #fff;
+  border-radius: 40rpx 40rpx 0 0 ;
   .title {
     font-size: 26rpx;
     margin-left: 40rpx;

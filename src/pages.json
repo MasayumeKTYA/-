@@ -23,6 +23,18 @@
       "style": {
         "navigationBarTitleText": "详情"
       }
+    },
+    {
+      "path": "pages/localFile/localFile",
+      "style": {
+        "navigationBarTitleText": "本地音乐"
+      }
+    },
+    {
+      "path": "pages/scan/scan",
+      "style": {
+        "navigationBarTitleText": "扫描音乐"
+      }
     }
   ],
   "globalStyle": {

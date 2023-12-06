@@ -8,6 +8,17 @@
       <view class="username">Masayume</view>
     </view>
   </view>
+  <view class="local">
+    <view class="local_box" @click="toLocal"
+      >
+      <wd-icon name="folder" size="22px"></wd-icon>
+      <view class="local_font">本地音乐</view>
+    </view>
+    <view class="local_box" @click="toScan">
+      <wd-icon name="folder-add" size="22px"></wd-icon>
+      <view class="local_font">扫描音乐</view>
+    </view>
+  </view>
   <view class="title">歌单</view>
   <view class="box">
     <view class="box_data" v-for="item in [0, 1, 2, 3, 4]" :key="item">
@@ -18,8 +29,8 @@
       </view>
     </view>
   </view>
-  <Audio :bottom="true" />
-  <Tab />
+  <Audio :bottom="false" />
+  <!-- <Tab /> -->
 </template>
 
 <script setup lang="ts">
@@ -27,23 +38,23 @@ import { onLoad } from "@dcloudio/uni-app";
 import { ref } from "vue";
 import Audio from "@/component/play/play.vue";
 import { useNavStore } from "@/stores/nav";
-import Tab from "@/component/tab/tab.vue";
+// import Tab from "@/component/tab/tab.vue";
 const { statusHeight, statusHeightNum } = useNavStore();
-const File = plus.android.importClass("java.io.File");
+const JavaFile = plus.android.importClass("java.io.File");
 let file: JavaFilePath[] = [];
 onLoad(() => {
   plus.android.requestPermissions(["android.permission.READ_EXTERNAL_STORAGE"]);
   dir();
-  console.log(file);
-  // uni.setStorageSync("file", JSON.stringify(file));
-  uni.clearStorage();
-  // console.log(arr);
+
+
 });
 function dir() {
-  const environment = plus.android.importClass("android.os.Environment");
-  let path = environment.getExternalStorageDirectory().getAbsolutePath();
-  let directory = new File(path);
-  let arr = directory.listFiles();
+  //获取安卓根目录
+  let path = plus.android.invoke('android.os.Environment', 'getExternalStorageDirectory').getAbsolutePath();
+  console.log(path);
+
+  let directory = plus.android.newObject("java.io.File", path);;
+  let arr: JavaFilePath[] = plus.android.invoke(directory, 'listFiles')
   let dirs: JavaFilePath[] = [],
     files: JavaFilePath[] = [];
 
@@ -66,6 +77,19 @@ function dir() {
   });
 
   file = [...dirs, ...files];
+
+}
+
+function toLocal() {
+  uni.navigateTo({
+    url: '/pages/localFile/localFile',
+  })
+}
+//前往扫描本地音乐
+function toScan(){
+  uni.navigateTo({
+    url: '/pages/scan/scan',
+  })
 }
 </script>
 
