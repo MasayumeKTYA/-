@@ -6,11 +6,11 @@
     <view style="height: 60rpx"></view>
     <view class="conatin">
       <view class="username">Masayume</view>
+      <view class="Logo">个人音乐播放器</view>
     </view>
   </view>
   <view class="local">
-    <view class="local_box" @click="toLocal"
-      >
+    <view class="local_box" @click="toLocal">
       <wd-icon name="folder" size="22px"></wd-icon>
       <view class="local_font">本地音乐</view>
     </view>
@@ -19,7 +19,10 @@
       <view class="local_font">扫描音乐</view>
     </view>
   </view>
-  <view class="title">歌单</view>
+  <view class="title_box">
+    <text class="title">歌单</text>
+    <wd-icon name="add" size="22px" @click="showInputSong"></wd-icon>
+  </view>
   <view class="box">
     <view class="box_data" v-for="item in [0, 1, 2, 3, 4]" :key="item">
       <view class="left"></view>
@@ -31,6 +34,17 @@
   </view>
   <Audio :bottom="false" />
   <!-- <Tab /> -->
+  <wd-popup v-model="addSongFile" position="center" custom-style="width:300px;height: 200px;border-radius:24rpx"
+    @close="hideInputSong">
+    <view class="popup1_title">新增歌单</view>
+    <view class="popup_songList">
+      <input placeholder="请输入歌单名称" class="list_input" focus />
+    </view>
+    <view class="flex_align_center">
+      <wd-button type="info" @click="hideInputSong">取消</wd-button>
+      <wd-button type="error">确定</wd-button>
+    </view>
+  </wd-popup>
 </template>
 
 <script setup lang="ts">
@@ -38,47 +52,90 @@ import { onLoad } from "@dcloudio/uni-app";
 import { ref } from "vue";
 import Audio from "@/component/play/play.vue";
 import { useNavStore } from "@/stores/nav";
+import { firstCreateRootFile } from '@/tool/index'
 // import Tab from "@/component/tab/tab.vue";
 const { statusHeight, statusHeightNum } = useNavStore();
 const JavaFile = plus.android.importClass("java.io.File");
 let file: JavaFilePath[] = [];
 onLoad(() => {
   plus.android.requestPermissions(["android.permission.READ_EXTERNAL_STORAGE"]);
-  dir();
-
-
+  let path: string = plus.android.invoke('android.os.Environment', 'getExternalStorageDirectory').getAbsolutePath();
+  // firstCreateRootFile(path)
 });
-function dir() {
-  //获取安卓根目录
-  let path = plus.android.invoke('android.os.Environment', 'getExternalStorageDirectory').getAbsolutePath();
-  console.log(path);
+uni.setStorageSync('song_list', [{
+  name: '歌曲',
+  fullPath: 'dsadasd',
+  isFile: false
+}, {
+  name: '歌曲',
+  fullPath: 'dsadasd',
+  isFile: false
+}, {
+  name: '歌曲',
+  fullPath: 'dsadasd',
+  isFile: false
+}, {
+  name: '歌曲',
+  fullPath: 'dsadasd',
+  isFile: false
+}, {
+  name: '歌曲',
+  fullPath: 'dsadasd',
+  isFile: false
+}, {
+  name: '歌曲',
+  fullPath: 'dsadasd',
+  isFile: false
+}, {
+  name: '歌曲',
+  fullPath: 'dsadasd',
+  isFile: false
+}, {
+  name: '歌曲',
+  fullPath: 'dsadasd',
+  isFile: false
+}, {
+  name: '歌曲',
+  fullPath: 'dsadasd',
+  isFile: false
+}, {
+  name: '歌曲',
+  fullPath: 'dsadasd',
+  isFile: false
+}, {
+  name: '歌曲',
+  fullPath: 'dsadasd',
+  isFile: false
+}, {
+  name: '歌曲',
+  fullPath: 'dsadasd',
+  isFile: false
+}, {
+  name: '歌曲',
+  fullPath: 'dsadasd',
+  isFile: false
+}, {
+  name: '歌曲',
+  fullPath: 'dsadasd',
+  isFile: false
+}, {
+  name: '歌曲',
+  fullPath: 'dsadasd',
+  isFile: false
+}, {
+  name: '歌曲',
+  fullPath: 'dsadasd',
+  isFile: false
+}, {
+  name: '歌曲',
+  fullPath: 'dsadasd',
+  isFile: false
+},
 
-  let directory = plus.android.newObject("java.io.File", path);;
-  let arr: JavaFilePath[] = plus.android.invoke(directory, 'listFiles')
-  let dirs: JavaFilePath[] = [],
-    files: JavaFilePath[] = [];
+])
+console.log(uni.getStorageInfoSync());
 
-  arr.forEach((item: any) => {
-    if (!item.isHidden()) {
-      if (item.isDirectory()) {
-        dirs.push({
-          name: item.getName(),
-          fullPath: item.getPath(),
-          isFile: false,
-        });
-      } else {
-        files.push({
-          name: item.getName(),
-          fullPath: item.getPath(),
-          isFile: true, // 是否是文件
-        });
-      }
-    }
-  });
 
-  file = [...dirs, ...files];
-
-}
 
 function toLocal() {
   uni.navigateTo({
@@ -86,10 +143,18 @@ function toLocal() {
   })
 }
 //前往扫描本地音乐
-function toScan(){
+function toScan() {
   uni.navigateTo({
     url: '/pages/scan/scan',
   })
+}
+//添加歌单
+const addSongFile = ref(false)
+function hideInputSong() {
+  addSongFile.value = false
+}
+function showInputSong() {
+  addSongFile.value = true
 }
 </script>
 

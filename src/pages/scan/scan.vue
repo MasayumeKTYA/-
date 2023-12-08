@@ -5,7 +5,7 @@
     <view></view>
   </view>
   <view :style="{ height: statusHeightNum + 50 + 'px', background: '#fff' }"></view>
-  <button hover-class="btn_hover" class="btn" @click="">
+  <button hover-class="btn_hover" class="btn" @click="toSearch">
     搜索本地音乐文件
   </button>
 </template>
@@ -17,6 +17,12 @@ function back() {
   uni.navigateBack({
     delta: 1,
   });
+}
+
+function toSearch(){
+  uni.navigateTo({
+    url:'/pages/searchMP/searchMP'
+  })
 }
 </script>
 <style lang="scss">

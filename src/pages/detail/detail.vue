@@ -2,7 +2,7 @@
   <view class="nav" :style="{ paddingTop: statusHeight }">
     <wd-icon
       name="chevron-down"
-      size="22px"
+      size="30px"
       @click="back"
       color="#fff"
     ></wd-icon>
@@ -105,7 +105,7 @@ page {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 100rpx auto;
+  margin: 400rpx auto 0 auto;
   .line_container {
     width: 600rpx;
     height: 2rpx;
@@ -143,5 +143,6 @@ page {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  margin-top: 100rpx;
 }
 </style>

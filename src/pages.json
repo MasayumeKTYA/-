@@ -35,6 +35,12 @@
       "style": {
         "navigationBarTitleText": "扫描音乐"
       }
+    },
+    {
+      "path": "pages/searchMP/searchMP",
+      "style": {
+        "navigationBarTitleText": "扫描音乐"
+      }
     }
   ],
   "globalStyle": {

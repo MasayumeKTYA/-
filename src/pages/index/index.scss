@@ -1,7 +1,9 @@
 page {
   background: #f6f7f9;
+  -webkit-overflow-scrolling: auto; /* 禁用盒子滚动效果 */
+  
 }
-.nav {
+.nav { 
   text-align: center;
   background: #fff;
   height: 50px;
@@ -33,6 +35,12 @@ page {
       font-size: 37rpx;
       text-align: center;
     }
+    .Logo{
+      font-size: 40rpx;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 20rpx;
+    }
   }
 }
 .local{
@@ -63,11 +71,18 @@ page {
     
   }
 }
-.title {
-  margin: 40rpx 0 40rpx 32rpx;
-  font-size: 24rpx;
-  color: #999;
+.title_box{
+  width: 650rpx;
+  margin: 40rpx auto 40rpx auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .title {
+    font-size: 30rpx;
+    color: #999;
+  }
 }
+
 .box {
   box-sizing: border-box;
   padding: 24rpx 32rpx;
@@ -99,4 +114,33 @@ page {
       }
     }
   }
+}
+.popup1_title{
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+}
+.popup1_box{
+  display: flex;
+  width: 500rpx;
+  margin: 20rpx auto;
+  .p_font{
+    height: 70rpx;
+    line-height: 70rpx;
+  }
+  
+}
+.popup_songList{
+  display: flex;
+  align-items: center;
+  width: 550rpx;
+  margin: 40rpx auto;
+  background: #dddddd;
+  height: 100rpx;
+  line-height: 100rpx;
+  border-radius: 40rpx;
+  .list_input{
+    margin-left: 40rpx;
+  }
+ 
 }
