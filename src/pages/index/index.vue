@@ -34,8 +34,12 @@
   </view>
   <Audio :bottom="false" />
   <!-- <Tab /> -->
-  <wd-popup v-model="addSongFile" position="center" custom-style="width:300px;height: 200px;border-radius:24rpx"
-    @close="hideInputSong">
+  <wd-popup
+    v-model="addSongFile"
+    position="center"
+    custom-style="width:300px;height: 200px;border-radius:24rpx"
+    @close="hideInputSong"
+  >
     <view class="popup1_title">新增歌单</view>
     <view class="popup_songList">
       <input placeholder="请输入歌单名称" class="list_input" focus />
@@ -52,109 +56,46 @@ import { onLoad } from "@dcloudio/uni-app";
 import { ref } from "vue";
 import Audio from "@/component/play/play.vue";
 import { useNavStore } from "@/stores/nav";
-import { firstCreateRootFile } from '@/tool/index'
+// import { writeFileImage } from "../../tool/index";
 // import Tab from "@/component/tab/tab.vue";
 const { statusHeight, statusHeightNum } = useNavStore();
-const JavaFile = plus.android.importClass("java.io.File");
-let file: JavaFilePath[] = [];
+plus.android.importClass("java.io.File");
 onLoad(() => {
   plus.android.requestPermissions(["android.permission.READ_EXTERNAL_STORAGE"]);
-  let path: string = plus.android.invoke('android.os.Environment', 'getExternalStorageDirectory').getAbsolutePath();
-  // firstCreateRootFile(path)
+  let path: string = plus.android
+    .invoke("android.os.Environment", "getExternalStorageDirectory")
+    .getAbsolutePath();
+  // const retriever = plus.android.newObject(
+  //   "android.media.MediaMetadataRetriever"
+  // );
+  // plus.android.invoke(retriever, "setDataSource", path + "/bg1.mp3");
+  // const arrByte: number[] = plus.android.invoke(
+  //   retriever,
+  //   "getEmbeddedPicture"
+  // );
+  // writeFileImage(path + "/text.jpeg", arrByte);
 });
-uni.setStorageSync('song_list', [{
-  name: '歌曲',
-  fullPath: 'dsadasd',
-  isFile: false
-}, {
-  name: '歌曲',
-  fullPath: 'dsadasd',
-  isFile: false
-}, {
-  name: '歌曲',
-  fullPath: 'dsadasd',
-  isFile: false
-}, {
-  name: '歌曲',
-  fullPath: 'dsadasd',
-  isFile: false
-}, {
-  name: '歌曲',
-  fullPath: 'dsadasd',
-  isFile: false
-}, {
-  name: '歌曲',
-  fullPath: 'dsadasd',
-  isFile: false
-}, {
-  name: '歌曲',
-  fullPath: 'dsadasd',
-  isFile: false
-}, {
-  name: '歌曲',
-  fullPath: 'dsadasd',
-  isFile: false
-}, {
-  name: '歌曲',
-  fullPath: 'dsadasd',
-  isFile: false
-}, {
-  name: '歌曲',
-  fullPath: 'dsadasd',
-  isFile: false
-}, {
-  name: '歌曲',
-  fullPath: 'dsadasd',
-  isFile: false
-}, {
-  name: '歌曲',
-  fullPath: 'dsadasd',
-  isFile: false
-}, {
-  name: '歌曲',
-  fullPath: 'dsadasd',
-  isFile: false
-}, {
-  name: '歌曲',
-  fullPath: 'dsadasd',
-  isFile: false
-}, {
-  name: '歌曲',
-  fullPath: 'dsadasd',
-  isFile: false
-}, {
-  name: '歌曲',
-  fullPath: 'dsadasd',
-  isFile: false
-}, {
-  name: '歌曲',
-  fullPath: 'dsadasd',
-  isFile: false
-},
-
-])
+uni.setStorageSync("song_list", []);
 console.log(uni.getStorageInfoSync());
-
-
 
 function toLocal() {
   uni.navigateTo({
-    url: '/pages/localFile/localFile',
-  })
+    url: "/pages/localFile/localFile",
+  });
 }
 //前往扫描本地音乐
 function toScan() {
   uni.navigateTo({
-    url: '/pages/scan/scan',
-  })
+    url: "/pages/scan/scan",
+  });
 }
 //添加歌单
-const addSongFile = ref(false)
+const addSongFile = ref(false);
 function hideInputSong() {
-  addSongFile.value = false
+  addSongFile.value = false;
 }
 function showInputSong() {
-  addSongFile.value = true
+  addSongFile.value = true;
 }
 </script>
 

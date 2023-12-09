@@ -12,9 +12,9 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
-const list = ref<JavaFilePath[]>(uni.getStorageSync('song_list'))
+const list = ref<JavaFilePath[]>(uni.getStorageSync("song_list"));
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .song_box {
   display: flex;
   height: 100rpx;
@@ -32,5 +32,16 @@ const list = ref<JavaFilePath[]>(uni.getStorageSync('song_list'))
 .song_box:active {
   @extend .song_box;
   background: rgba(0, 0, 0, 0.1);
+}
+.nodeSong {
+  display: block;
+  margin: 250rpx auto 0 auto;
+  width: 254rpx;
+  height: 265.81rpx;
+}
+
+.none_font {
+  margin-top: 20rpx;
+  text-align: center;
 }
 </style>

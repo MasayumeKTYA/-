@@ -1,21 +1,27 @@
 <template>
-  <view class="nav" :style="{ height: statusHeightNum + 50 + 'px', lineHeight: statusHeightNum + 50 + 'px' }">
+  <view
+    class="nav"
+    :style="{
+      height: statusHeightNum + 50 + 'px',
+      lineHeight: statusHeightNum + 50 + 'px',
+    }"
+  >
     <wd-icon name="thin-arrow-left" size="20px" @click="back"></wd-icon>
-    <view style="justify-self: center;font-size: 36rpx;">本地歌曲</view>
+    <view style="justify-self: center; font-size: 36rpx">本地歌曲</view>
     <view></view>
   </view>
-  <view :style="{ height: statusHeightNum + 50 + 'px', background: '#fff' }"></view>
+  <view
+    :style="{ height: statusHeightNum + 50 + 'px', background: '#fff' }"
+  ></view>
   <Song />
 </template>
 <script setup lang="ts">
 import { useNavStore } from "@/stores/nav";
-import { ref } from 'vue'
-import Song from '@/component/song/song.vue'
+import { ref } from "vue";
+import Song from "@/component/song/song.vue";
 const { statusHeightNum } = useNavStore();
 
-const list = ref<JavaFilePath[]>(uni.getStorageSync('song_list'))
-
-
+const list = ref<JavaFilePath[]>(uni.getStorageSync("song_list"));
 
 //返回
 function back() {
@@ -56,19 +62,5 @@ function back() {
 .song_box:active {
   @extend .song_box;
   background: rgba(0, 0, 0, 0.1);
-}
-
-
-
-.nodeSong {
-  display: block;
-  margin: 250rpx auto 0 auto;
-  width: 254rpx;
-  height: 265.81rpx;
-}
-
-.none_font {
-  margin-top: 20rpx;
-  text-align: center;
 }
 </style>
