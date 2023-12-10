@@ -38,8 +38,11 @@
 import { onLoad } from "@dcloudio/uni-app";
 import { ref } from "vue";
 import { useNavStore } from "@/stores/nav";
-import Mp3File from "@/tool/file";
+import Mp3File from "@/tool/Audio";
+import File from "@/tool/File1";
+import { useSongStore } from "@/stores/song";
 const { statusHeight, statusHeightNum } = useNavStore();
+const { myAppRoot } = useSongStore();
 function back() {
   uni.navigateBack({
     delta: 1,
@@ -90,16 +93,26 @@ function getFileList(path: string) {
   file.value = dirs;
 }
 //选择当前目录
-function selectCurrent() {
+async function selectCurrent() {
   //save root
   uni.showLoading({
     title: "正在搜索中",
     mask: true,
   });
-  let { files } = getChildFile(root.value, "file");
+  const file1 = new File(root.value);
+  let { files } = getChildFile(root.value, "audioFile");
   console.log(files);
 
+  //
   if (files.length !== 0) {
+    //读出数据 与files 合并进行数组去重
+    const { files: jsonFiles } = getChildFile(myAppRoot + "/json", "jsonFile");
+    const localData = JSON.parse(file1.readFile(jsonFiles));
+
+    //存数据阶段
+    const stringFiles = JSON.stringify(files);
+    const jsonArr: number[] = plus.android.invoke(stringFiles, "getBytes");
+    file1.writeData(jsonArr, ".json", myAppRoot + "/json");
   }
   setTimeout(() => {
     uni.hideLoading();
@@ -121,19 +134,19 @@ function getChildFile(path: string, scanType: string) {
     files: JavaFilePath[] = [];
   //扫描类型 是文件还是文件夹
   switch (scanType) {
-    case "file":
+    //音频文件
+    case "audioFile":
       arr.forEach((item: any) => {
         if (!item.isHidden() && !item.isDirectory()) {
           let fileSong: Mp3File | null = new Mp3File(
             item.getPath(),
             item.getParent()
           );
-          console.log(fileSong.getType());
           if (
             fileSong.getType() === "audio/mpeg" ||
             fileSong.getType() === "audio/ogg"
           ) {
-            const picAdress = fileSong.getImage();
+            const picAdress = fileSong.getImage(myAppRoot);
             const pushObject: JavaFilePath = {
               name: item.getName(),
               fullPath: item.getPath(),
@@ -159,8 +172,8 @@ function getChildFile(path: string, scanType: string) {
           fileSong = null;
         }
       });
-
       return { dirs, files };
+    //文件夹
     case "dir":
       arr.forEach((item: any) => {
         if (!item.isHidden() && item.isDirectory()) {
@@ -168,6 +181,18 @@ function getChildFile(path: string, scanType: string) {
             name: item.getName(),
             fullPath: item.getPath(),
             isFile: false,
+          });
+        }
+      });
+      return { dirs, files };
+    //json 文件
+    case "jsonFile":
+      arr.forEach((item: any) => {
+        if (!item.isHidden() && !item.isDirectory()) {
+          files.push({
+            name: item.getName(),
+            fullPath: item.getPath(),
+            isFile: true,
           });
         }
       });
@@ -257,3 +282,4 @@ function getChildFile(path: string, scanType: string) {
   text-align: center;
 }
 </style>
+@/tool/Audio

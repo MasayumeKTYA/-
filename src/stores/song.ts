@@ -2,7 +2,13 @@ import { defineStore } from "pinia";
 
 export const useSongStore = defineStore("song", {
   state: () => {
-    return {};
+    return {
+      myAppRoot: "",
+    };
   },
-  actions: {},
+  actions: {
+    setMyAppRoot(path: string) {
+      this.myAppRoot = path;
+    },
+  },
 });

@@ -3,7 +3,7 @@ import { onLaunch, onShow, onHide } from "@dcloudio/uni-app";
 import { useNavStore } from "@/stores/nav";
 onLaunch(() => {
   console.log("App Launch");
-  useNavStore().getStatusHeight()
+  useNavStore().getStatusHeight();
 });
 onShow(() => {
   console.log("App Show");
@@ -11,8 +11,7 @@ onShow(() => {
 onHide(() => {
   console.log("App Hide");
 });
-
 </script>
 <style lang="scss">
-@import './app.scss'
+@import "./app.scss";
 </style>

@@ -56,24 +56,40 @@ import { onLoad } from "@dcloudio/uni-app";
 import { ref } from "vue";
 import Audio from "@/component/play/play.vue";
 import { useNavStore } from "@/stores/nav";
-// import { writeFileImage } from "../../tool/index";
+import { useSongStore } from "@/stores/song";
 // import Tab from "@/component/tab/tab.vue";
+import File from "@/tool/File1";
 const { statusHeight, statusHeightNum } = useNavStore();
+const songStore = useSongStore();
 plus.android.importClass("java.io.File");
 onLoad(() => {
-  plus.android.requestPermissions(["android.permission.READ_EXTERNAL_STORAGE"]);
+  plus.android.requestPermissions([
+    "android.permission.MANAGE_EXTERNAL_STORAGE",
+  ]);
   let path: string = plus.android
     .invoke("android.os.Environment", "getExternalStorageDirectory")
     .getAbsolutePath();
-  // const retriever = plus.android.newObject(
-  //   "android.media.MediaMetadataRetriever"
-  // );
-  // plus.android.invoke(retriever, "setDataSource", path + "/bg1.mp3");
-  // const arrByte: number[] = plus.android.invoke(
-  //   retriever,
-  //   "getEmbeddedPicture"
-  // );
-  // writeFileImage(path + "/text.jpeg", arrByte);
+  console.log(path + "/myApp");
+  const file1 = new File(path);
+  file1.createDir("/myApp");
+  const file2 = new File(path + "/myApp");
+  file2.createDir("/image");
+  file2.createDir("/json");
+  //判断是否存在json文件
+  const existJSON = plus.android.newObject(
+    "java.io.File",
+    path + "/myApp" + "/json"
+  );
+  const JSONfile = plus.android.invoke(existJSON, "listFiles");
+  if (JSONfile.length === 0) {
+    const stringFiles = JSON.stringify([]);
+    const jsonArr: number[] = plus.android.invoke(stringFiles, "getBytes");
+    console.log(jsonArr);
+    file1.writeData(jsonArr, ".json", path + "/myApp" + "/json");
+    //全局状态 设置文件根目录
+  }
+
+  songStore.setMyAppRoot(path + "/myApp");
 });
 uni.setStorageSync("song_list", []);
 console.log(uni.getStorageInfoSync());
