@@ -34,12 +34,8 @@
   </view>
   <Audio :bottom="false" />
   <!-- <Tab /> -->
-  <wd-popup
-    v-model="addSongFile"
-    position="center"
-    custom-style="width:300px;height: 200px;border-radius:24rpx"
-    @close="hideInputSong"
-  >
+  <wd-popup v-model="addSongFile" position="center" custom-style="width:300px;height: 200px;border-radius:24rpx"
+    @close="hideInputSong">
     <view class="popup1_title">新增歌单</view>
     <view class="popup_songList">
       <input placeholder="请输入歌单名称" class="list_input" focus />
@@ -64,32 +60,42 @@ const songStore = useSongStore();
 plus.android.importClass("java.io.File");
 onLoad(() => {
   plus.android.requestPermissions([
-    "android.permission.MANAGE_EXTERNAL_STORAGE",
-  ]);
-  let path: string = plus.android
-    .invoke("android.os.Environment", "getExternalStorageDirectory")
-    .getAbsolutePath();
-  console.log(path + "/myApp");
-  const file1 = new File(path);
-  file1.createDir("/myApp");
-  const file2 = new File(path + "/myApp");
-  file2.createDir("/image");
-  file2.createDir("/json");
-  //判断是否存在json文件
-  const existJSON = plus.android.newObject(
-    "java.io.File",
-    path + "/myApp" + "/json"
-  );
-  const JSONfile = plus.android.invoke(existJSON, "listFiles");
-  if (JSONfile.length === 0) {
-    const stringFiles = JSON.stringify([]);
-    const jsonArr: number[] = plus.android.invoke(stringFiles, "getBytes");
-    console.log(jsonArr);
-    file1.writeData(jsonArr, ".json", path + "/myApp" + "/json");
-    //全局状态 设置文件根目录
-  }
+    "android.permission.READ_EXTERNAL_STORAGE",
+  ],
+  function (res) {
+    console.log(res);
+    
+      //获取跟路径
+      let path: string = plus.android
+        .invoke("android.os.Environment", "getExternalStorageDirectory")
+        .getAbsolutePath();
+      const myRoot = path + "/myApp"
+      const file1 = new File(path);
+      file1.createDir("/myApp");
+      const file2 = new File(myRoot);
+      file2.createDir("/image");
+      file2.createDir("/json");
+      //判断是否存在json文件
+      const existJSON = plus.android.newObject(
+        "java.io.File",
+        myRoot + "/json"
+      );
+      const JSONfile = plus.android.invoke(existJSON, "listFiles");
+      console.log(JSONfile);
 
-  songStore.setMyAppRoot(path + "/myApp");
+      if (JSONfile !== null && JSONfile.length === 0) {
+        const stringFiles = JSON.stringify([]);
+        const jsonArr: number[] = plus.android.invoke(stringFiles, "getBytes");
+        file1.writeData(jsonArr, ".json", myRoot + "/json");
+
+      }
+      //全局状态 设置文件根目录
+      songStore.setMyAppRoot(myRoot);
+      
+
+    }
+  );
+
 });
 uni.setStorageSync("song_list", []);
 console.log(uni.getStorageInfoSync());
