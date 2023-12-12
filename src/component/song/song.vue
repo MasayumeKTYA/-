@@ -1,6 +1,11 @@
 <template>
   <block v-if="list.length !== 0">
-    <view class="song_box" v-for="(item, index) in list" :key="index">
+    <view
+      class="song_box"
+      v-for="(item, index) in list"
+      :key="index"
+      @click="play(item)"
+    >
       <view class="rank">{{ index + 1 }}</view>
       <view class="song_name">{{ item.name }}</view>
     </view>
@@ -11,8 +16,21 @@
   </block>
 </template>
 <script lang="ts" setup>
-import { ref } from "vue";
-const list = ref<JavaFilePath[]>(uni.getStorageSync("song_list"));
+import { defineEmits } from "vue";
+import type { PropType } from "vue";
+
+const props = defineProps({
+  list: {
+    type: Array as PropType<JavaFilePath[]>,
+    require: true,
+    default: [],
+  },
+});
+const emit = defineEmits(["sendSong"]);
+function play(data: JavaFilePath) {
+  uni.setStorageSync("songPath", data.fullPath);
+  emit("sendSong", data);
+}
 </script>
 <style lang="scss" scoped>
 .song_box {

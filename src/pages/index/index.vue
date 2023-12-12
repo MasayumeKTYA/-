@@ -34,8 +34,12 @@
   </view>
   <Audio :bottom="false" />
   <!-- <Tab /> -->
-  <wd-popup v-model="addSongFile" position="center" custom-style="width:300px;height: 200px;border-radius:24rpx"
-    @close="hideInputSong">
+  <wd-popup
+    v-model="addSongFile"
+    position="center"
+    custom-style="width:300px;height: 200px;border-radius:24rpx"
+    @close="hideInputSong"
+  >
     <view class="popup1_title">新增歌单</view>
     <view class="popup_songList">
       <input placeholder="请输入歌单名称" class="list_input" focus />
@@ -56,20 +60,20 @@ import { useSongStore } from "@/stores/song";
 // import Tab from "@/component/tab/tab.vue";
 import File from "@/tool/File1";
 const { statusHeight, statusHeightNum } = useNavStore();
+
 const songStore = useSongStore();
 plus.android.importClass("java.io.File");
 onLoad(() => {
-  plus.android.requestPermissions([
-    "android.permission.READ_EXTERNAL_STORAGE",
-  ],
-  function (res) {
-    console.log(res);
-    
+  plus.android.requestPermissions(
+    ["android.permission.READ_EXTERNAL_STORAGE"],
+    function (res) {
+      console.log(res);
+
       //获取跟路径
       let path: string = plus.android
         .invoke("android.os.Environment", "getExternalStorageDirectory")
         .getAbsolutePath();
-      const myRoot = path + "/myApp"
+      const myRoot = path + "/myApp";
       const file1 = new File(path);
       file1.createDir("/myApp");
       const file2 = new File(myRoot);
@@ -86,16 +90,16 @@ onLoad(() => {
       if (JSONfile !== null && JSONfile.length === 0) {
         const stringFiles = JSON.stringify([]);
         const jsonArr: number[] = plus.android.invoke(stringFiles, "getBytes");
-        file1.writeData(jsonArr, ".json", myRoot + "/json");
-
+        file1.writeDataFimeName(jsonArr, myRoot + "/json/songList.json");
       }
       //全局状态 设置文件根目录
       songStore.setMyAppRoot(myRoot);
-      
-
+      const localData: Array<JavaFilePath> = JSON.parse(
+        file1.readFile(myRoot + "/json/songList.json")
+      );
+      songStore.getSongList(localData);
     }
   );
-
 });
 uni.setStorageSync("song_list", []);
 console.log(uni.getStorageInfoSync());

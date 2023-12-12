@@ -10,3 +10,12 @@ declare interface JavaFilePath {
   album?: string;
   MP3Title?: string;
 }
+declare interface storeSong {
+  myAppRoot: string;
+  songList: JavaFilePath[];
+  innerAudioContext: UniApp.InnerAudioContext;
+}
+
+declare interface PropsSong {
+  list: JavaFilePath[];
+}

@@ -21,9 +21,20 @@ export default class File {
       console.log("file already exists");
     }
   }
+  //自定义文件名写入
   writeData(byteImage: number[], type: string, address: string) {
     const fileName = this.getFilename(type);
     const lastPath = address + fileName;
+    const File = plus.android.newObject("java.io.File", lastPath);
+    const fos = plus.android.newObject("java.io.FileOutputStream", File);
+    plus.android.invoke(fos, "write", byteImage);
+    plus.android.invoke(fos, "close");
+    plus.android.autoCollection(fos);
+    return lastPath;
+  }
+  //指定文件名写入'
+  writeDataFimeName(byteImage: number[], address: string) {
+    const lastPath = address;
     const File = plus.android.newObject("java.io.File", lastPath);
     const fos = plus.android.newObject("java.io.FileOutputStream", File);
     plus.android.invoke(fos, "write", byteImage);
@@ -42,35 +53,29 @@ export default class File {
     const formattedString = year + month + day + hours + minutes + randomNum;
     return "/" + formattedString + fileType;
   }
-  readFile(jsonFiles: JavaFilePath[]): string {
+  readFile(path: string): string {
     const StringBuilder = plus.android.newObject("java.lang.StringBuilder");
     try {
-      if (jsonFiles.length !== 0) {
-        const localFile = plus.android.newObject(
-          "java.io.File",
-          jsonFiles[0].fullPath
-        );
-        const FileReader = plus.android.newObject(
-          "java.io.FileReader",
-          localFile
-        );
-        const BufferedReader = plus.android.newObject(
-          "java.io.BufferedReader",
-          FileReader
-        );
-        let line = "";
-        while (
-          (line = plus.android.invoke(BufferedReader, "readLine")) !== null
-        ) {
-          plus.android.invoke(StringBuilder, "append", line);
-          plus.android.invoke("java.lang.System", "lineSeparator");
-        }
-        return plus.android.invoke(StringBuilder, "toString");
+      const localFile = plus.android.newObject("java.io.File", path);
+      const FileReader = plus.android.newObject(
+        "java.io.FileReader",
+        localFile
+      );
+      const BufferedReader = plus.android.newObject(
+        "java.io.BufferedReader",
+        FileReader
+      );
+      let line = "";
+      while (
+        (line = plus.android.invoke(BufferedReader, "readLine")) !== null
+      ) {
+        plus.android.invoke(StringBuilder, "append", line);
+        plus.android.invoke("java.lang.System", "lineSeparator");
       }
+      return plus.android.invoke(StringBuilder, "toString");
     } catch (e) {
       console.warn(e);
       throw new Error("读文件出错");
     }
-    return "";
   }
 }

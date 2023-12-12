@@ -104,22 +104,29 @@ async function selectCurrent() {
   console.log(files);
 
   //
+  let mergeData;
   if (files.length !== 0) {
     //读出数据 与files 合并进行数组去重
-    const { files: jsonFiles } = getChildFile(myAppRoot + "/json", "jsonFile");
-    const localData = JSON.parse(file1.readFile(jsonFiles));
+
+    const localData = JSON.parse(
+      file1.readFile(myAppRoot + "/json/songList.json")
+    );
+    console.log(localData);
+
+    mergeData = [...localData, ...files];
+    console.log(mergeData);
 
     //存数据阶段
-    const stringFiles = JSON.stringify(files);
+    const stringFiles = JSON.stringify(mergeData);
     const jsonArr: number[] = plus.android.invoke(stringFiles, "getBytes");
-    file1.writeData(jsonArr, ".json", myAppRoot + "/json");
+    file1.writeDataFimeName(jsonArr, myAppRoot + "/json/songList.json");
   }
   setTimeout(() => {
     uni.hideLoading();
     uni.showToast({
       title:
         files.length !== 0
-          ? `已添加${files.length}首`
+          ? `已添加${mergeData.length}首`
           : `当前文件夹下并没有歌曲哦`,
       icon: "none",
       mask: true,

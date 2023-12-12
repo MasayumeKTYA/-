@@ -1,41 +1,66 @@
 <template>
-  <view class="audio_box" style="" :style="{
-    background: transitionAllBox ? 'rgba(0,0,0,0.1)' : '',
-    bottom: bottom ? '50px' : '0',
-  }">
-    <image src="/static/img/avatar.jpg" class="img" :style="{ animationPlayState: playBtn ? 'paused' : 'running' }"
-      @click="allBox" />
+  <view
+    class="audio_box"
+    style=""
+    :style="{
+      background: transitionAllBox ? 'rgba(0,0,0,0.1)' : '',
+      bottom: bottom ? '50px' : '0',
+    }"
+  >
+    <image
+      src="/static/img/avatar.jpg"
+      class="img"
+      :style="{ animationPlayState: playBtn ? 'paused' : 'running' }"
+      @click="allBox"
+    />
     <view class="title" @click="allBox">标题标题标题</view>
-    <wd-icon name="play" size="30px" class="play" :style="{ background: transitionBtn ? 'rgba(0,0,0,0.1)' : '' }"
-      @click="play" v-if="playBtn"></wd-icon>
-    <wd-icon name="pause" size="30px" class="play" :style="{ background: transitionBtn ? 'rgba(0,0,0,0.1)' : '' }" v-else
-      @click="pause"></wd-icon>
+    <wd-icon
+      name="play"
+      size="30px"
+      class="play"
+      :style="{ background: transitionBtn ? 'rgba(0,0,0,0.1)' : '' }"
+      @click="play"
+      v-if="playBtn"
+    ></wd-icon>
+    <wd-icon
+      name="pause"
+      size="30px"
+      class="play"
+      :style="{ background: transitionBtn ? 'rgba(0,0,0,0.1)' : '' }"
+      v-else
+      @click="pause"
+    ></wd-icon>
 
-    <wd-icon name="menu-fold" size="30px" class="list" @click="popupShow"></wd-icon>
-    <wd-popup :z-index="11" v-model="popup1" position="bottom"
-      custom-style="padding-bottom: 50px;height:700rpx;border-radius: 24rpx 24rpx 0 0">
+    <wd-icon
+      name="menu-fold"
+      size="30px"
+      class="list"
+      @click="popupShow"
+    ></wd-icon>
+    <wd-popup
+      :z-index="11"
+      v-model="popup1"
+      position="bottom"
+      custom-style="padding-bottom: 50px;height:700rpx;border-radius: 24rpx 24rpx 0 0"
+    >
       <view class="currentPlay">当前播放</view>
-      <view style="height: 100rpx;"></view>
+      <view style="height: 100rpx"></view>
       <Song />
-
     </wd-popup>
   </view>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
-import Song from '../song/song.vue'
+import Song from "../song/song.vue";
+import { useSongStore } from "@/stores/song";
+const { innerAudioContext } = useSongStore();
 const props = defineProps({
   //子组件接收父组件传递过来的值
   bottom: Boolean,
 });
 
-const innerAudioContext = uni.createInnerAudioContext();
-
-innerAudioContext.src = "/static/bg2.ogg";
-
 innerAudioContext.onError((res) => {
-  console.log(res);
   console.log(res);
 });
 //显示播放还是暂停
@@ -118,7 +143,7 @@ function allBox() {
     margin-left: 20rpx;
   }
 }
-.currentPlay{
+.currentPlay {
   border-radius: 24rpx 24rpx 0 0;
   height: 100rpx;
   text-align: center;

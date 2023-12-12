@@ -13,16 +13,25 @@
   <view
     :style="{ height: statusHeightNum + 50 + 'px', background: '#fff' }"
   ></view>
-  <Song />
+  <Song :list="list" @sendSong="getSong" />
+  <Play :url="playURl" />
 </template>
 <script setup lang="ts">
 import { useNavStore } from "@/stores/nav";
 import { ref } from "vue";
 import Song from "@/component/song/song.vue";
+import { useSongStore } from "@/stores/song";
+import Play from "@/component/play/play.vue";
 const { statusHeightNum } = useNavStore();
+const { songList } = useSongStore();
+console.log(songList);
 
-const list = ref<JavaFilePath[]>(uni.getStorageSync("song_list"));
-
+const list = ref<JavaFilePath[]>(songList);
+const playURl = ref("");
+function getSong(val: JavaFilePath) {
+  console.log(val);
+  playURl.value = val.fullPath;
+}
 //返回
 function back() {
   uni.navigateBack({
