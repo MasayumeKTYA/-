@@ -5,8 +5,11 @@ import { useSongStore } from "./stores/song";
 onLaunch(() => {
   console.log("App Launch");
   useNavStore().getStatusHeight();
-  const path: string = uni.getStorageSync("songPath");
-  useSongStore().initAudio(path);
+  const song: JavaFilePath|'' = uni.getStorageSync("songPath");
+  if(song !==''){
+    useSongStore().setAudio(song);
+  }
+
 });
 onShow(() => {
   console.log("App Show");

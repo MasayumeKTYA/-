@@ -14,7 +14,7 @@
     :style="{ height: statusHeightNum + 50 + 'px', background: '#fff' }"
   ></view>
   <Song :list="list" @sendSong="getSong" />
-  <Play :url="playURl" />
+  <Play />
 </template>
 <script setup lang="ts">
 import { useNavStore } from "@/stores/nav";
@@ -23,14 +23,17 @@ import Song from "@/component/song/song.vue";
 import { useSongStore } from "@/stores/song";
 import Play from "@/component/play/play.vue";
 const { statusHeightNum } = useNavStore();
-const { songList } = useSongStore();
-console.log(songList);
+const SongStore = useSongStore();
 
-const list = ref<JavaFilePath[]>(songList);
-const playURl = ref("");
+
+const list = ref<JavaFilePath[]>(SongStore.songList);
+const playSong = ref<JavaFilePath>();
 function getSong(val: JavaFilePath) {
   console.log(val);
-  playURl.value = val.fullPath;
+  SongStore.setAudio(val)
+  SongStore.play()
+  playSong.value = val;
+  
 }
 //返回
 function back() {

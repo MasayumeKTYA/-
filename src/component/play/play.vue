@@ -3,43 +3,43 @@
     class="audio_box"
     style=""
     :style="{
-      background: transitionAllBox ? 'rgba(0,0,0,0.1)' : '',
+      background: store.transitionAllBox ? 'rgba(0,0,0,0.1)' : '',
       bottom: bottom ? '50px' : '0',
     }"
   >
     <image
       src="/static/img/avatar.jpg"
       class="img"
-      :style="{ animationPlayState: playBtn ? 'paused' : 'running' }"
-      @click="allBox"
+      :style="{ animationPlayState: store.playBtn ? 'paused' : 'running' }"
+      @click="store.allBox"
     />
-    <view class="title" @click="allBox">标题标题标题</view>
+    <view class="title" @click="store.allBox">{{ store.currentSong.MP3Title }}</view>
     <wd-icon
       name="play"
       size="30px"
       class="play"
-      :style="{ background: transitionBtn ? 'rgba(0,0,0,0.1)' : '' }"
-      @click="play"
-      v-if="playBtn"
+      :style="{ background: store.transitionBtn ? 'rgba(0,0,0,0.1)' : '' }"
+      @click="store.play"
+      v-if="store.playBtn"
     ></wd-icon>
     <wd-icon
       name="pause"
       size="30px"
       class="play"
-      :style="{ background: transitionBtn ? 'rgba(0,0,0,0.1)' : '' }"
+      :style="{ background: store.transitionBtn ? 'rgba(0,0,0,0.1)' : '' }"
       v-else
-      @click="pause"
+      @click="store.pause"
     ></wd-icon>
 
     <wd-icon
       name="menu-fold"
       size="30px"
       class="list"
-      @click="popupShow"
+      @click="store.popupShow"
     ></wd-icon>
     <wd-popup
       :z-index="11"
-      v-model="popup1"
+      v-model="store.popup1"
       position="bottom"
       custom-style="padding-bottom: 50px;height:700rpx;border-radius: 24rpx 24rpx 0 0"
     >
@@ -54,55 +54,14 @@
 import { ref } from "vue";
 import Song from "../song/song.vue";
 import { useSongStore } from "@/stores/song";
-const { innerAudioContext } = useSongStore();
+const store = useSongStore();
 const props = defineProps({
   //子组件接收父组件传递过来的值
   bottom: Boolean,
 });
 
-innerAudioContext.onError((res) => {
-  console.log(res);
-});
-//显示播放还是暂停
-const playBtn = ref(true);
-const transitionBtn = ref(false);
-function pause() {
-  innerAudioContext.pause();
-  playBtn.value = true;
-  transitionBtn.value = true;
-  setTimeout(() => {
-    transitionBtn.value = false;
-  }, 200);
-}
-function play() {
-  innerAudioContext.play();
-  playBtn.value = false;
-  transitionBtn.value = true;
-  setTimeout(() => {
-    transitionBtn.value = false;
-  }, 200);
-}
-innerAudioContext.onEnded(() => {
-  playBtn.value = true;
-});
-//弹出层部分
-const popup1 = ref(false);
-function popupShow() {
-  popup1.value = !popup1.value;
-}
 
-//点击整个盒子
-const transitionAllBox = ref(false);
-function allBox() {
-  transitionAllBox.value = true;
-  setTimeout(() => {
-    uni.navigateTo({
-      url: "/pages/detail/detail",
-      animationType: "slide-in-bottom",
-    });
-    transitionAllBox.value = false;
-  }, 200);
-}
+
 </script>
 
 <style lang="scss">

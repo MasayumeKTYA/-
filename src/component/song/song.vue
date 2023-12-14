@@ -7,7 +7,7 @@
       @click="play(item)"
     >
       <view class="rank">{{ index + 1 }}</view>
-      <view class="song_name">{{ item.name }}</view>
+      <view class="song_name">{{ item.MP3Title }}</view>
     </view>
   </block>
   <block v-else>
@@ -28,7 +28,7 @@ const props = defineProps({
 });
 const emit = defineEmits(["sendSong"]);
 function play(data: JavaFilePath) {
-  uni.setStorageSync("songPath", data.fullPath);
+  uni.setStorageSync("songPath", data);
   emit("sendSong", data);
 }
 </script>
