@@ -13,8 +13,9 @@
   <view
     :style="{ height: statusHeightNum + 50 + 'px', background: '#fff' }"
   ></view>
-  <Song :list="list" @sendSong="getSong" />
+  <Song :list="list" @sendSong="SongStore.getSong" />
   <Play />
+  <view style="height: 60px"></view>
 </template>
 <script setup lang="ts">
 import { useNavStore } from "@/stores/nav";
@@ -25,16 +26,8 @@ import Play from "@/component/play/play.vue";
 const { statusHeightNum } = useNavStore();
 const SongStore = useSongStore();
 
-
 const list = ref<JavaFilePath[]>(SongStore.songList);
-const playSong = ref<JavaFilePath>();
-function getSong(val: JavaFilePath) {
-  console.log(val);
-  SongStore.setAudio(val)
-  SongStore.play()
-  playSong.value = val;
-  
-}
+
 //返回
 function back() {
   uni.navigateBack({

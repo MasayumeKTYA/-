@@ -7,7 +7,11 @@
       @click="play(item)"
     >
       <view class="rank">{{ index + 1 }}</view>
-      <view class="song_name">{{ item.MP3Title }}</view>
+      <view class="song_name">
+        <view style="font-size: 30rpx">{{ item.MP3Title }}</view>
+        <view class="author" v-if="item.author != null">{{ item.author }}</view>
+        <view class="author" v-else>未知</view>
+      </view>
     </view>
   </block>
   <block v-else>
@@ -26,6 +30,7 @@ const props = defineProps({
     default: [],
   },
 });
+
 const emit = defineEmits(["sendSong"]);
 function play(data: JavaFilePath) {
   uni.setStorageSync("songPath", data);
@@ -44,6 +49,13 @@ function play(data: JavaFilePath) {
     line-height: 100rpx;
     text-align: center;
     font-size: 36rpx;
+  }
+  .song_name {
+    .author {
+      margin-top: 10rpx;
+      font-size: 26rpx;
+      color: #666;
+    }
   }
 }
 

@@ -16,7 +16,8 @@ export default class Mp3File extends File1 {
     return plus.android.invoke(
       this.retriever,
       "extractMetadata",
-      this.retriever.plusGetAttribute("METADATA_KEY_ALBUMARTIST")
+      // this.retriever.plusGetAttribute("METADATA_KEY_ALBUMARTIST")
+      this.retriever.plusGetAttribute("METADATA_KEY_ARTIST")
     );
   }
   getDuring(): number {

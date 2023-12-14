@@ -34,8 +34,12 @@
   </view>
   <Audio :bottom="false" />
   <!-- <Tab /> -->
-  <wd-popup v-model="addSongFile" position="center" custom-style="width:300px;height: 200px;border-radius:24rpx"
-    @close="hideInputSong">
+  <wd-popup
+    v-model="addSongFile"
+    position="center"
+    custom-style="width:300px;height: 200px;border-radius:24rpx"
+    @close="hideInputSong"
+  >
     <view class="popup1_title">新增歌单</view>
     <view class="popup_songList">
       <input placeholder="请输入歌单名称" class="list_input" focus />
@@ -94,15 +98,9 @@ onLoad(() => {
         file1.readFile(myRoot + "/json/songList.json")
       );
       songStore.getSongList(localData);
-      
-      
     }
   );
-   
-  
 });
-uni.setStorageSync("song_list", []);
-console.log(uni.getStorageInfoSync());
 
 function toLocal() {
   uni.navigateTo({

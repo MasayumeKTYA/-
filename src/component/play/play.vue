@@ -8,12 +8,24 @@
     }"
   >
     <image
-      src="/static/img/avatar.jpg"
+      :src="
+        store.currentSong.pic === ''
+          ? '/static//img//songBG.jpg'
+          : store.currentSong.pic
+      "
       class="img"
       :style="{ animationPlayState: store.playBtn ? 'paused' : 'running' }"
       @click="store.allBox"
     />
-    <view class="title" @click="store.allBox">{{ store.currentSong.MP3Title }}</view>
+    <view class="title" @click="store.allBox">
+      <view style="font-size: 30rpx">
+        {{ store.currentSong.MP3Title }}
+      </view>
+      <view class="author" v-if="store.currentSong.author != null">
+        {{ store.currentSong.author }}
+      </view>
+      <view v-else> 未知 </view>
+    </view>
     <wd-icon
       name="play"
       size="30px"
@@ -45,13 +57,12 @@
     >
       <view class="currentPlay">当前播放</view>
       <view style="height: 100rpx"></view>
-      <Song />
+      <Song :list="store.songList" @sendSong="store.getSong" />
     </wd-popup>
   </view>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import Song from "../song/song.vue";
 import { useSongStore } from "@/stores/song";
 const store = useSongStore();
@@ -59,9 +70,9 @@ const props = defineProps({
   //子组件接收父组件传递过来的值
   bottom: Boolean,
 });
-
-
-
+store.innerAudioContext.onEnded(() => {
+  store.nextSong();
+});
 </script>
 
 <style lang="scss">
@@ -101,6 +112,11 @@ const props = defineProps({
   .list {
     margin-left: 20rpx;
   }
+}
+.author {
+  margin-top: 10rpx;
+  font-size: 26rpx;
+  color: #666;
 }
 .currentPlay {
   border-radius: 24rpx 24rpx 0 0;

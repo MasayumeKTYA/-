@@ -42,7 +42,7 @@ import Mp3File from "@/tool/Audio";
 import File from "@/tool/File1";
 import { useSongStore } from "@/stores/song";
 const { statusHeight, statusHeightNum } = useNavStore();
-const { myAppRoot } = useSongStore();
+const SongStore = useSongStore();
 function back() {
   uni.navigateBack({
     delta: 1,
@@ -100,27 +100,27 @@ async function selectCurrent() {
     mask: true,
   });
   const file1 = new File(root.value);
-  let { files } = getChildFile(root.value, "audioFile");
-  console.log(files);
 
   //
-  let mergeData;
-  if (files.length !== 0) {
-    //读出数据 与files 合并进行数组去重
+  let mergeData: JavaFilePath[];
 
-    const localData = JSON.parse(
-      file1.readFile(myAppRoot + "/json/songList.json")
-    );
-    console.log(localData);
+  //读出数据 与files 合并进行数组去重
 
-    mergeData = [...localData, ...files];
-    console.log(mergeData);
+  const localData = JSON.parse(
+    file1.readFile(SongStore.myAppRoot + "/json/songList.json")
+  );
+  console.log(localData);
 
-    //存数据阶段
-    const stringFiles = JSON.stringify(mergeData);
-    const jsonArr: number[] = plus.android.invoke(stringFiles, "getBytes");
-    file1.writeDataFimeName(jsonArr, myAppRoot + "/json/songList.json");
-  }
+  let { files } = getChildFile(root.value, "audioFile", localData);
+  console.log(files);
+  mergeData = [...localData, ...files];
+  console.log(mergeData);
+
+  //存数据阶段
+  const stringFiles = JSON.stringify(mergeData);
+  const jsonArr: number[] = plus.android.invoke(stringFiles, "getBytes");
+  file1.writeDataFimeName(jsonArr, SongStore.myAppRoot + "/json/songList.json");
+
   setTimeout(() => {
     uni.hideLoading();
     uni.showToast({
@@ -131,10 +131,11 @@ async function selectCurrent() {
       icon: "none",
       mask: true,
     });
+    SongStore.getSongList(mergeData);
   }, 500);
 }
 //获取子文件夹与文件
-function getChildFile(path: string, scanType: string) {
+function getChildFile(path: string, scanType: string, data?: JavaFilePath[]) {
   let directory = plus.android.newObject("java.io.File", path);
   let arr: JavaFilePath[] = plus.android.invoke(directory, "listFiles");
   let dirs: JavaFilePath[] = [],
@@ -144,6 +145,16 @@ function getChildFile(path: string, scanType: string) {
     //音频文件
     case "audioFile":
       arr.forEach((item: any) => {
+        //如果已经读取过 跳过
+        if (data === undefined) return;
+        console.log(data);
+
+        const dataLen = data.filter(
+          (el: JavaFilePath) => el.name === item.getName()
+        );
+        console.log(dataLen);
+
+        if (dataLen.length !== 0) return;
         if (!item.isHidden() && !item.isDirectory()) {
           let fileSong: Mp3File | null = new Mp3File(
             item.getPath(),
@@ -153,7 +164,7 @@ function getChildFile(path: string, scanType: string) {
             fileSong.getType() === "audio/mpeg" ||
             fileSong.getType() === "audio/ogg"
           ) {
-            const picAdress = fileSong.getImage(myAppRoot);
+            const picAdress = fileSong.getImage(SongStore.myAppRoot);
             const pushObject: JavaFilePath = {
               name: item.getName(),
               fullPath: item.getPath(),

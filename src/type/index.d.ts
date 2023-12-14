@@ -11,15 +11,15 @@ declare interface JavaFilePath {
   MP3Title?: string;
 }
 declare interface storeSong {
+  currentIndex: number;
   myAppRoot: string;
   songList: JavaFilePath[];
   innerAudioContext: UniApp.InnerAudioContext;
-  currentSong:JavaFilePath 
-  transitionAllBox:boolean
-  playBtn:boolean
-  transitionBtn:boolean
-  popup1:boolean
-  
+  currentSong: JavaFilePath;
+  transitionAllBox: boolean;
+  playBtn: boolean;
+  transitionBtn: boolean;
+  popup1: boolean;
 }
 
 declare interface PropsSong {
