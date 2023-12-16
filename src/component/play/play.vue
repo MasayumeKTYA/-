@@ -3,7 +3,7 @@
     class="audio_box"
     style=""
     :style="{
-      background: store.transitionAllBox ? 'rgba(0,0,0,0.1)' : '',
+      background: store.transitionAllBox ? '#dadada' : '',
       bottom: bottom ? '50px' : '0',
     }"
   >
@@ -30,7 +30,7 @@
       name="play"
       size="30px"
       class="play"
-      :style="{ background: store.transitionBtn ? 'rgba(0,0,0,0.1)' : '' }"
+      :style="{ background: store.transitionBtn ? '#dadada' : '' }"
       @click="store.play"
       v-if="store.playBtn"
     ></wd-icon>
@@ -38,7 +38,7 @@
       name="pause"
       size="30px"
       class="play"
-      :style="{ background: store.transitionBtn ? 'rgba(0,0,0,0.1)' : '' }"
+      :style="{ background: store.transitionBtn ? '#dadada' : '' }"
       v-else
       @click="store.pause"
     ></wd-icon>
@@ -73,6 +73,9 @@ const props = defineProps({
 store.innerAudioContext.onEnded(() => {
   store.nextSong();
 });
+// store.innerAudioContext.onTimeUpdate((e) => {
+//   console.log(e);
+// });
 </script>
 
 <style lang="scss">
@@ -86,11 +89,11 @@ store.innerAudioContext.onEnded(() => {
   padding: 0 40rpx;
   background-color: #fff;
   border-radius: 40rpx 40rpx 0 0;
-
+  // background: #dadada;
   .title {
     font-size: 26rpx;
     margin-left: 40rpx;
-    width: 320rpx;
+    width: 420rpx;
   }
 
   .img {
@@ -104,7 +107,7 @@ store.innerAudioContext.onEnded(() => {
   }
 
   .play {
-    margin-left: 80rpx;
+    margin-left: 20rpx;
     border-radius: 50%;
     transition: all 1s;
   }

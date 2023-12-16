@@ -6,46 +6,105 @@
       @click="back"
       color="#fff"
     ></wd-icon>
-    <view style="justify-self: center">歌曲名称</view>
-    <view></view>
+    <view style="justify-self: center">{{
+      SongStore.currentSong.MP3Title
+    }}</view>
+    <view style="width: 30px"></view>
   </view>
+
   <view :style="{ height: statusHeightNum + 50 + 'px' }"></view>
 
-  <view class="BGM">
-    <image class="singBG" src="/static/img/avatar.jpg" mode="scaleToFill" />
+  <view
+    class="BGM"
+    :style="{ animationPlayState: SongStore.playBtn ? 'paused' : 'running' }"
+  >
+    <image
+      class="singBG"
+      :src="
+        SongStore.currentSong.pic === ''
+          ? '/static//img//songBG.jpg'
+          : SongStore.currentSong.pic
+      "
+      mode="scaleToFill"
+    />
   </view>
   <view class="line_box">
-    <view class="line_font">0:00</view>
+    <view class="line_font">{{ SongStore.startTime }}</view>
     <view class="line_container">
       <view class="line1"></view>
-      <view class="cir" style="left: 200rpx"></view>
-      <view class="line2" style="width: 200rpx"></view>
+      <view class="cir" :style="{ left: SongStore.lineWidth }"></view>
+      <view class="line2" :style="{ width: SongStore.lineWidth }"></view>
     </view>
-    <view class="line_font">0:00</view>
+    <view class="line_font">{{ endTime }}</view>
   </view>
   <view class="bottom">
     <!-- <wd-icon name="format-horizontal-align-center" size="22px"></wd-icon> -->
-    <wd-icon name="refresh1" size="22px"></wd-icon>
+    <wd-icon name="refresh1" size="22px" @click="SongStore.preSong"></wd-icon>
     <wd-icon name="previous" size="22px"></wd-icon>
     <wd-icon
       name="play-circle"
       size="40px"
       style="justify-self: center"
+      @click="SongStore.play"
+      v-if="SongStore.playBtn"
     ></wd-icon>
-    <wd-icon name="next" size="22px"></wd-icon>
-    <wd-icon name="menu-fold" size="22px"></wd-icon>
+    <wd-icon
+      name="pause-circle"
+      size="40px"
+      style="justify-self: center"
+      @click="SongStore.pause"
+      v-else
+    ></wd-icon>
+    <wd-icon name="next" size="22px" @click="SongStore.nextSong"></wd-icon>
+    <wd-icon
+      name="menu-fold"
+      size="22px"
+      @click="SongStore.popupShow"
+    ></wd-icon>
   </view>
+  <!--弹出-->
+  <wd-popup
+    :z-index="11"
+    v-model="SongStore.popup1"
+    position="bottom"
+    custom-style="padding-bottom: 50px;height:700rpx;border-radius: 24rpx 24rpx 0 0"
+  >
+    <view class="currentPlay">当前播放</view>
+    <view style="height: 100rpx"></view>
+    <Song :list="SongStore.songList" @sendSong="SongStore.getSong" />
+  </wd-popup>
 </template>
 
 <script setup lang="ts">
+import { onUnload } from "@dcloudio/uni-app";
+import Song from "@/component/song/song.vue";
 import { ref } from "vue";
 import { useNavStore } from "@/stores/nav";
+import { useSongStore } from "@/stores/song";
+import { nowTimeFu } from "@/tool/index";
 const { statusHeight, statusHeightNum } = useNavStore();
+const SongStore = useSongStore();
 function back() {
   uni.navigateBack({
     delta: 1,
   });
 }
+
+if (SongStore.currentSong.time === undefined) {
+  throw new Error("SongStore.currentSong.time not found");
+}
+const endTime = ref<string>(nowTimeFu(SongStore.currentSong.time));
+
+console.log();
+
+SongStore.innerAudioContext.onPlay(() => {
+  console.log(SongStore.innerAudioContext.currentTime);
+});
+
+//销毁
+onUnload(() => {
+  SongStore.popup1 = false;
+});
 </script>
 
 <style lang="scss">
@@ -56,6 +115,11 @@ page {
   background-attachment: fixed; /*关键*/
   background-position: center;
   backdrop-filter: blur(40px); /* 模糊半径 */
+}
+.songName {
+  text-align: center;
+  font-size: 36rpx;
+  font-weight: bold;
 }
 .nav {
   box-sizing: border-box;
@@ -107,7 +171,7 @@ page {
   align-items: center;
   margin: 400rpx auto 0 auto;
   .line_container {
-    width: 600rpx;
+    width: 570rpx;
     height: 2rpx;
     position: relative;
     .cir {
@@ -119,11 +183,12 @@ page {
       border-radius: 50%;
       background: #fff;
       z-index: 3;
+      transition: all 1s linear;
     }
     .line1 {
       position: absolute;
       background: rgba(207, 207, 207, 0.5);
-      width: 600rpx;
+      width: 570rpx;
       height: 2rpx;
     }
     .line2 {
@@ -138,6 +203,18 @@ page {
     font-size: 24rpx;
     color: #fff;
   }
+}
+.currentPlay {
+  border-radius: 24rpx 24rpx 0 0;
+  height: 100rpx;
+  text-align: center;
+  line-height: 100rpx;
+  font-weight: bold;
+  font-size: 36rpx;
+  position: fixed;
+  width: 750rpx;
+  z-index: 9;
+  background: #fff;
 }
 .bottom {
   display: flex;

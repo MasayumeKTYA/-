@@ -7,7 +7,7 @@
     }"
   >
     <wd-icon name="thin-arrow-left" size="20px" @click="back"></wd-icon>
-    <view style="justify-self: center; font-size: 36rpx">本地歌曲</view>
+    <view style="justify-self: center; font-size: 36rpx">{{ title }}</view>
     <view></view>
   </view>
   <view
@@ -18,6 +18,7 @@
   <view style="height: 60px"></view>
 </template>
 <script setup lang="ts">
+import { onLoad } from "@dcloudio/uni-app";
 import { useNavStore } from "@/stores/nav";
 import { ref } from "vue";
 import Song from "@/component/song/song.vue";
@@ -25,7 +26,15 @@ import { useSongStore } from "@/stores/song";
 import Play from "@/component/play/play.vue";
 const { statusHeightNum } = useNavStore();
 const SongStore = useSongStore();
-
+const title = ref("本地歌曲");
+onLoad((options) => {
+  console.log(options);
+  if (options === undefined) return;
+  const { type } = options;
+  if (type === "2") {
+    title.value = "歌曲列表";
+  }
+});
 const list = ref<JavaFilePath[]>(SongStore.songList);
 
 //返回

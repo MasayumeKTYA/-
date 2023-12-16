@@ -20,6 +20,10 @@ declare interface storeSong {
   playBtn: boolean;
   transitionBtn: boolean;
   popup1: boolean;
+  startTime: string;
+  currentTime: number;
+  setIntervalData: number;
+  lineWidth: string;
 }
 
 declare interface PropsSong {

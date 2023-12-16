@@ -10,7 +10,7 @@
     </view>
   </view>
   <view class="local">
-    <view class="local_box" @click="toLocal">
+    <view class="local_box" @click="toLocal(1)">
       <wd-icon name="folder" size="22px"></wd-icon>
       <view class="local_font">本地音乐</view>
     </view>
@@ -24,11 +24,16 @@
     <wd-icon name="add" size="22px" @click="showInputSong"></wd-icon>
   </view>
   <view class="box">
-    <view class="box_data" v-for="item in [0, 1, 2, 3, 4]" :key="item">
-      <view class="left"></view>
+    <view
+      class="box_data"
+      v-for="item in songList"
+      :key="item"
+      @click="toLocal(2)"
+    >
+      <image class="left" src="/static/img/detailBG.jpg" mode="aspectFill" />
       <view class="right">
-        <view class="sing_title">标题标题标题</view>
-        <view class="sing_num">10首</view>
+        <view class="sing_title">{{ item.name }}</view>
+        <view class="sing_num">{{ item.num }}首</view>
       </view>
     </view>
   </view>
@@ -63,6 +68,7 @@ const { statusHeight, statusHeightNum } = useNavStore();
 
 const songStore = useSongStore();
 plus.android.importClass("java.io.File");
+const songList = ref();
 onLoad(() => {
   plus.android.requestPermissions(
     ["android.permission.READ_EXTERNAL_STORAGE"],
@@ -98,13 +104,23 @@ onLoad(() => {
         file1.readFile(myRoot + "/json/songList.json")
       );
       songStore.getSongList(localData);
+      songList.value = [
+        {
+          name: "CN",
+          num: localData.length,
+        },
+      ];
+      const song: JavaFilePath | "" = uni.getStorageSync("songPath");
+      if (song !== "") {
+        songStore.setAudio(song);
+      }
     }
   );
 });
 
-function toLocal() {
+function toLocal(type: number) {
   uni.navigateTo({
-    url: "/pages/localFile/localFile",
+    url: `/pages/localFile/localFile?type=${type}`,
   });
 }
 //前往扫描本地音乐
@@ -119,7 +135,11 @@ function hideInputSong() {
   addSongFile.value = false;
 }
 function showInputSong() {
-  addSongFile.value = true;
+  // addSongFile.value = true;
+  uni.showToast({
+    title: "功能开发中...",
+    icon: "none",
+  });
 }
 </script>
 
