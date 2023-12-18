@@ -9,46 +9,63 @@
     {
       "path": "pages/index/index",
       "style": {
-        "navigationBarTitleText": "首页"
+        "navigationBarTitleText": "首页",
+        "app-plus": {
+          "bounce": "none"
+        }
       }
     },
     {
       "path": "pages/my/my",
       "style": {
-        "navigationBarTitleText": "我的"
+        "navigationBarTitleText": "我的",
+        "app-plus": {
+          "bounce": "none"
+        }
       }
     },
     {
       "path": "pages/detail/detail",
       "style": {
-        "navigationBarTitleText": "详情"
+        "navigationBarTitleText": "详情",
+        "app-plus": {
+          "bounce": "none"
+        }
       }
     },
     {
       "path": "pages/localFile/localFile",
       "style": {
-        "navigationBarTitleText": "本地音乐"
+        "navigationBarTitleText": "本地音乐",
+        "app-plus": {
+          "bounce": "none"
+        }
       }
     },
     {
       "path": "pages/scan/scan",
       "style": {
-        "navigationBarTitleText": "扫描音乐"
+        "navigationBarTitleText": "扫描音乐",
+        "app-plus": {
+          "bounce": "none"
+        }
       }
     },
     {
       "path": "pages/searchMP/searchMP",
       "style": {
-        "navigationBarTitleText": "扫描音乐"
+        "navigationBarTitleText": "扫描音乐",
+        "app-plus": {
+          "bounce": "none"
+        }
       }
     }
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "uni-app",
-    "navigationStyle":"custom",
+    "navigationStyle": "custom",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   }
-  
 }
