@@ -1,4 +1,9 @@
-.flex_align_center{
+.flex_align_center {
   display: flex;
   align-items: center;
+}
+.songOverFlow {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

@@ -18,10 +18,10 @@
       @click="store.allBox"
     />
     <view class="title" @click="store.allBox">
-      <view style="font-size: 30rpx">
+      <view class="songOverFlow MP3Title">
         {{ store.currentSong.MP3Title }}
       </view>
-      <view class="author" v-if="store.currentSong.author != null">
+      <view class="author songOverFlow" v-if="store.currentSong.author != null">
         {{ store.currentSong.author }}
       </view>
       <view v-else> 未知 </view>
@@ -120,6 +120,11 @@ store.innerAudioContext.onEnded(() => {
   margin-top: 10rpx;
   font-size: 26rpx;
   color: #666;
+  width: 300rpx;
+}
+.MP3Title {
+  width: 300rpx;
+  font-size: 30rpx;
 }
 .currentPlay {
   border-radius: 24rpx 24rpx 0 0;

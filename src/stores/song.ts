@@ -131,12 +131,12 @@ export const useSongStore = defineStore("song", {
     allBox() {
       this.transitionAllBox = true;
       setTimeout(() => {
-        uni.navigateTo({
-          url: "/pages/detail/detail",
-          animationType: "slide-in-bottom",
-        });
         this.transitionAllBox = false;
       }, 200);
+      uni.navigateTo({
+        url: "/pages/detail/detail",
+        animationType: "slide-in-bottom",
+      });
     },
   },
 });

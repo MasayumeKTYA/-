@@ -9,9 +9,12 @@
     >
       <view class="rank">{{ index + 1 }}</view>
       <view class="song_name">
-        <view style="font-size: 30rpx">{{ item.MP3Title }}</view>
+        <view class="MP3Title songOverFlow">
+          {{ item.MP3Title }}
+        </view>
+
         <view
-          class="author"
+          class="author songOverFlow"
           v-if="item.author != null"
           :style="{ color: index === SongStore.currentIndex ? 'red' : '#000' }"
           >{{ item.author }}</view
@@ -67,6 +70,11 @@ function play(data: JavaFilePath) {
       margin-top: 10rpx;
       font-size: 26rpx;
       color: #666;
+      width: 500rpx;
+    }
+    .MP3Title {
+      font-size: 30rpx;
+      width: 500rpx;
     }
   }
 }

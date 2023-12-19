@@ -6,9 +6,30 @@
       @click="back"
       color="#fff"
     ></wd-icon>
-    <view style="justify-self: center">{{
-      SongStore.currentSong.MP3Title
-    }}</view>
+    <view style="justify-self: center">
+      <view class="title songOverFlow">
+        <!-- <block v-if="(SongStore.currentSong.MP3Title!).length > 10">
+          <swiper
+            autoplay
+            style="height: 40rpx; width: 550rpx; text-align: center"
+            :interval="1000"
+            :duration="12000"
+            circular
+            disable-touch
+          >
+            <swiper-item>{{ SongStore.currentSong.MP3Title }}</swiper-item>
+            <swiper-item>{{ SongStore.currentSong.MP3Title }}</swiper-item>
+            <swiper-item>{{ SongStore.currentSong.MP3Title }}</swiper-item>
+          </swiper>
+        </block> 
+        <block >-->
+        {{ SongStore.currentSong.MP3Title }}
+        <!-- </block> -->
+      </view>
+      <view class="author songOverFlow">{{
+        SongStore.currentSong.author
+      }}</view>
+    </view>
     <view style="width: 30px"></view>
   </view>
 
@@ -39,8 +60,8 @@
   </view>
   <view class="bottom">
     <!-- <wd-icon name="format-horizontal-align-center" size="22px"></wd-icon> -->
-    <wd-icon name="refresh1" size="22px" @click="SongStore.preSong"></wd-icon>
-    <wd-icon name="previous" size="22px"></wd-icon>
+    <wd-icon name="refresh1" size="22px" @click="random"></wd-icon>
+    <wd-icon name="previous" size="22px" @click="SongStore.preSong"></wd-icon>
     <wd-icon
       name="play-circle"
       size="40px"
@@ -100,7 +121,12 @@ console.log();
 SongStore.innerAudioContext.onPlay(() => {
   console.log(SongStore.innerAudioContext.currentTime);
 });
-
+function random() {
+  uni.showToast({
+    title: "功能待开发...",
+    icon: "none",
+  });
+}
 //销毁
 onUnload(() => {
   SongStore.popup1 = false;
@@ -127,12 +153,23 @@ page {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  // background: #fff;
-  height: 50px;
-  line-height: 50px;
+  // background: #000;
+  height: 70px;
+  // line-height: 50px;
   position: fixed;
   z-index: 9;
   width: 750rpx;
+  .title {
+    overflow: hidden;
+    width: 300rpx;
+    font-size: 30rpx;
+    text-align: center;
+  }
+  .author {
+    text-align: center;
+    width: 300rpx;
+    font-size: 26rpx;
+  }
 }
 .BGM {
   width: 629rpx;
