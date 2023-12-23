@@ -8,6 +8,7 @@ export const useSongStore = defineStore("song", {
       innerAudioContext: uni.createInnerAudioContext(),
       currentSong: {
         name: "暂无歌曲",
+        author: "未知",
         fullPath: "",
         isFile: true,
         time: 0,
@@ -17,13 +18,15 @@ export const useSongStore = defineStore("song", {
       currentIndex: 0,
       startTime: "00:00", //当前时间 用于展示
       currentTime: 0, //当前时间 用于计算
-      lineWidth: "0rpx", //长度
+      lineWidth: 0, //长度
       setIntervalData: 0,
       //play组件参数
       transitionAllBox: false,
       playBtn: true,
       transitionBtn: false,
       popup1: false,
+
+      setTimeout: true, //防抖
     };
   },
   actions: {
@@ -34,17 +37,14 @@ export const useSongStore = defineStore("song", {
       this.songList = list;
     },
     setAudio(data: JavaFilePath) {
-      console.log(data);
-
       this.currentSong = data;
       this.innerAudioContext.src = data.fullPath;
       console.log(this.songList);
-
+      uni.setStorageSync("songPath", data);
       const index = this.songList.findIndex(
         (item) => item.MP3Title === data.MP3Title
       );
       this.currentIndex = index;
-      console.log(this.currentIndex);
     },
     //下一首
     nextSong() {
@@ -53,6 +53,7 @@ export const useSongStore = defineStore("song", {
       } else {
         this.currentIndex++;
       }
+      // console.log(this.currentIndex);
       //清除定时器
       this.clearTimeData();
       this.currentSong = this.songList[this.currentIndex];
@@ -66,17 +67,31 @@ export const useSongStore = defineStore("song", {
       } else {
         this.currentIndex--;
       }
+
       //清除定时器
       this.clearTimeData();
       this.currentSong = this.songList[this.currentIndex];
       this.setAudio(this.currentSong);
       this.play();
     },
+    //防抖
+
+    debound() {
+      if (this.setTimeout) {
+        console.log(1212);
+
+        this.nextSong();
+        this.setTimeout = false;
+        setTimeout(() => {
+          this.setTimeout = true;
+        }, 2000);
+      }
+    },
     clearTimeData() {
       clearInterval(this.setIntervalData);
       this.currentTime = 0;
       this.startTime = "00:00";
-      this.lineWidth = "0rpx";
+      this.lineWidth = 0;
     },
     //点击歌曲
     getSong(val: JavaFilePath) {
@@ -115,14 +130,14 @@ export const useSongStore = defineStore("song", {
     },
     //定时器
     setIntervalFn() {
-      console.log(this.innerAudioContext.currentTime);
       this.setIntervalData = setInterval(() => {
+        this.lineWidth++;
         const time = Math.floor(this.innerAudioContext.currentTime);
         this.startTime = format(time);
-        this.currentTime = time;
-        //设置线的长度
-        const lineW = 570 / (3 * 60);
-        this.lineWidth = Math.ceil(time * lineW) + "rpx";
+
+        const rateTime = Math.floor(this.currentSong.time! / 1000);
+        const resTime = (this.innerAudioContext.currentTime / rateTime) * 100;
+        this.lineWidth = Number(resTime.toFixed(2));
       }, 1000);
     },
     popupShow() {
@@ -137,6 +152,14 @@ export const useSongStore = defineStore("song", {
         url: "/pages/detail/detail",
         animationType: "slide-in-bottom",
       });
+    },
+    sliderChange(e: silder) {
+      const { value } = e.detail;
+      const time = (this.currentSong.time! * value) / 100000;
+      const resTime = Number(time.toFixed(0));
+      this.innerAudioContext.seek(resTime);
+      this.startTime = format(resTime);
+      this.play();
     },
   },
 });

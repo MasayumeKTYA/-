@@ -23,9 +23,15 @@ declare interface storeSong {
   startTime: string;
   currentTime: number;
   setIntervalData: number;
-  lineWidth: string;
+  lineWidth: number;
+  setTimeout: boolean;
 }
 
 declare interface PropsSong {
   list: JavaFilePath[];
+}
+declare interface silder {
+  detail: {
+    value: number;
+  };
 }

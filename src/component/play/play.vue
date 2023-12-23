@@ -70,12 +70,10 @@ const props = defineProps({
   //子组件接收父组件传递过来的值
   bottom: Boolean,
 });
+
 store.innerAudioContext.onEnded(() => {
-  store.nextSong();
+  store.debound();
 });
-// store.innerAudioContext.onTimeUpdate((e) => {
-//   console.log(e);
-// });
 </script>
 
 <style lang="scss">

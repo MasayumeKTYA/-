@@ -47,6 +47,9 @@ dependencies:
   '@dcloudio/uni-quickapp-webview':
     specifier: 3.0.0-3090820231124001
     version: 3.0.0-3090820231124001(postcss@8.4.31)(vue@3.2.45)
+  font-awesome:
+    specifier: ^4.7.0
+    version: 4.7.0
   pinia:
     specifier: 2.0.33
     version: 2.0.33(typescript@4.9.4)(vue@3.2.45)
@@ -4495,6 +4498,11 @@ packages:
       locate-path: 5.0.0
       path-exists: 4.0.0
     dev: true
+
+  /font-awesome@4.7.0:
+    resolution: {integrity: sha512-U6kGnykA/6bFmg1M/oT9EkFeIYv7JlX3bozwQJWiiLz6L0w3F5vBVPxHlwyX/vtNq1ckcpRKOB9f2Qal/VtFpg==}
+    engines: {node: '>=0.10.3'}
+    dev: false
 
   /form-data@3.0.1:
     resolution: {integrity: sha512-RHkBKtLWUVwd7SqRIvCZMEvAMoGUp0XU+seQiZejj0COz3RI3hWP4sCv3gZWWLjJTd7rGwcsF5eKZGii0r/hbg==}

@@ -48,7 +48,6 @@ const props = defineProps({
 
 const emit = defineEmits(["sendSong"]);
 function play(data: JavaFilePath) {
-  uni.setStorageSync("songPath", data);
   emit("sendSong", data);
 }
 </script>

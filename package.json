@@ -53,6 +53,7 @@
     "@dcloudio/uni-mp-weixin": "3.0.0-3090820231124001",
     "@dcloudio/uni-mp-xhs": "3.0.0-3090820231124001",
     "@dcloudio/uni-quickapp-webview": "3.0.0-3090820231124001",
+    "font-awesome": "^4.7.0",
     "pinia": "2.0.33",
     "sass": "^1.69.5",
     "sass-loader": "10.1.1",

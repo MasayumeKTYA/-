@@ -36,6 +36,7 @@
         <view class="sing_num">{{ item.num }}首</view>
       </view>
     </view>
+    <view class="fa fa-user-o"></view>
   </view>
   <Audio :bottom="false" />
   <!-- <Tab /> -->

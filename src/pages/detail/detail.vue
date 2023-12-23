@@ -51,35 +51,38 @@
   </view>
   <view class="line_box">
     <view class="line_font">{{ SongStore.startTime }}</view>
-    <view class="line_container">
-      <view class="line1"></view>
-      <view class="cir" :style="{ left: SongStore.lineWidth }"></view>
-      <view class="line2" :style="{ width: SongStore.lineWidth }"></view>
+
+    <view style="width: 570rpx">
+      <slider
+        :value="SongStore.lineWidth"
+        block-size="10"
+        step="5"
+        @change="SongStore.sliderChange"
+        activeColor="pink"
+      />
     </view>
     <view class="line_font">{{ endTime }}</view>
   </view>
   <view class="bottom">
-    <!-- <wd-icon name="format-horizontal-align-center" size="22px"></wd-icon> -->
-    <wd-icon name="refresh1" size="22px" @click="random"></wd-icon>
-    <wd-icon name="previous" size="22px" @click="SongStore.preSong"></wd-icon>
-    <wd-icon
-      name="play-circle"
-      size="40px"
-      style="justify-self: center"
+    <!-- <wd-icon name="refresh1" size="22px" ></wd-icon> -->
+    <view class="fa fa-refresh step" @click="random"></view>
+    <!-- <view class="fa fa-random step"></view> -->
+    <view class="fa fa-step-backward step" @click="SongStore.preSong"></view>
+    <view
+      class="fa fa-play-circle icon_background"
       @click="SongStore.play"
       v-if="SongStore.playBtn"
-    ></wd-icon>
-    <wd-icon
-      name="pause-circle"
-      size="40px"
-      style="justify-self: center"
+    ></view>
+    <view
+      class="fa fa-pause-circle icon_background"
       @click="SongStore.pause"
       v-else
-    ></wd-icon>
-    <wd-icon name="next" size="22px" @click="SongStore.nextSong"></wd-icon>
+    ></view>
+    <view class="fa fa-step-forward step" @click="SongStore.nextSong"></view>
+
     <wd-icon
       name="menu-fold"
-      size="22px"
+      size="26px"
       @click="SongStore.popupShow"
     ></wd-icon>
   </view>
@@ -116,11 +119,10 @@ if (SongStore.currentSong.time === undefined) {
 }
 const endTime = ref<string>(nowTimeFu(SongStore.currentSong.time));
 
-console.log();
+// SongStore.innerAudioContext.onPlay(() => {
+//   console.log(SongStore.innerAudioContext.currentTime);
+// });
 
-SongStore.innerAudioContext.onPlay(() => {
-  console.log(SongStore.innerAudioContext.currentTime);
-});
 function random() {
   uni.showToast({
     title: "功能待开发...",
@@ -202,40 +204,12 @@ page {
   }
 }
 .line_box {
-  width: 730rpx;
+  width: 650rpx;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 400rpx auto 0 auto;
-  .line_container {
-    width: 570rpx;
-    height: 2rpx;
-    position: relative;
-    .cir {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 20rpx;
-      height: 20rpx;
-      border-radius: 50%;
-      background: #fff;
-      z-index: 3;
-      transition: all 1s linear;
-    }
-    .line1 {
-      position: absolute;
-      background: rgba(207, 207, 207, 0.5);
-      width: 570rpx;
-      height: 2rpx;
-    }
-    .line2 {
-      position: absolute;
-      background: rgba(244, 244, 244, 1);
 
-      height: 2rpx;
-      z-index: 2;
-    }
-  }
   .line_font {
     font-size: 24rpx;
     color: #fff;
@@ -253,7 +227,16 @@ page {
   z-index: 9;
   background: #fff;
 }
+.icon_background {
+  color: #fff;
+  justify-self: center;
+  font-size: 50px;
+}
+.step {
+  font-size: 20px;
+}
 .bottom {
+  color: #fff;
   display: flex;
   justify-content: space-around;
   align-items: center;
