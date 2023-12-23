@@ -10,4 +10,4 @@
       目前可做到读取本地音频文件进行音乐播放
 # 版本
     目前仅限安卓版本
-    安装地址 https://gitee.com/konodayio/music-apk/tree/main/
+    安装地址 https://gitee.com/konodayio/music-apk/blob/main/hongya.com.apk
