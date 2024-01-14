@@ -34,7 +34,7 @@
   </block>
 </template>
 <script lang="ts" setup>
-import { defineEmits } from "vue";
+// import { defineEmits } from "vue";
 import type { PropType } from "vue";
 import { useSongStore } from "@/stores/song";
 const SongStore = useSongStore();
@@ -52,6 +52,7 @@ function play(data: JavaFilePath) {
 }
 </script>
 <style lang="scss" scoped>
+@import "../../app.scss";
 .song_box {
   display: flex;
   height: 100rpx;

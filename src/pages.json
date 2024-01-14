@@ -11,7 +11,20 @@
       "style": {
         "navigationBarTitleText": "首页",
         "app-plus": {
-          "bounce": "none"
+          "bounce": "none",
+          "subNVues": [
+            {
+              "id": "popup",
+              "path": "pages/subNvue/popup",
+              "type": "popup",
+              "style": {
+                "top": "75%",
+                "height": "25%",
+                "z-index": 99,
+                "background": "transparent"
+              }
+            }
+          ]
         }
       }
     },

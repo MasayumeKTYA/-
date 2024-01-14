@@ -18,6 +18,11 @@
       <wd-icon name="folder-add" size="22px"></wd-icon>
       <view class="local_font">扫描音乐</view>
     </view>
+    <view class="local_box" @click="subNvuePopup">
+      <view class="fa fa-hourglass-1" />
+      <!-- <wd-icon name="folder-add" size="22px"></wd-icon> -->
+      <view class="local_font">设置闹铃</view>
+    </view>
   </view>
   <view class="title_box">
     <text class="title">歌单</text>
@@ -141,8 +146,15 @@ function showInputSong() {
     icon: "none",
   });
 }
+//弹出选择时间
+function subNvuePopup() {
+  const subNVue = uni.getSubNVueById("popup");
+  subNVue.show("slide-in-bottom");
+  console.log(subNVue);
+}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "./index.scss";
+@import "../../app.scss";
 </style>

@@ -21,10 +21,11 @@ declare interface storeSong {
   transitionBtn: boolean;
   popup1: boolean;
   startTime: string;
+  endTime: string;
   currentTime: number;
   setIntervalData: number;
   lineWidth: number;
-  setTimeout: boolean;
+  setTimeoutDebound: boolean;
 }
 
 declare interface PropsSong {

@@ -1,5 +1,6 @@
 import { format } from "@/tool";
 import { defineStore } from "pinia";
+import { nowTimeFu } from "@/tool/index";
 export const useSongStore = defineStore("song", {
   state: (): storeSong => {
     return {
@@ -17,6 +18,7 @@ export const useSongStore = defineStore("song", {
       },
       currentIndex: 0,
       startTime: "00:00", //当前时间 用于展示
+      endTime: "", //结束时间
       currentTime: 0, //当前时间 用于计算
       lineWidth: 0, //长度
       setIntervalData: 0,
@@ -26,7 +28,7 @@ export const useSongStore = defineStore("song", {
       transitionBtn: false,
       popup1: false,
 
-      setTimeout: true, //防抖
+      setTimeoutDebound: true, //防抖
     };
   },
   actions: {
@@ -76,14 +78,12 @@ export const useSongStore = defineStore("song", {
     },
     //防抖
 
-    debound() {
-      if (this.setTimeout) {
-        console.log(1212);
-
-        this.nextSong();
-        this.setTimeout = false;
+    debound(cb: () => void) {
+      if (this.setTimeoutDebound) {
+        cb();
+        this.setTimeoutDebound = false;
         setTimeout(() => {
-          this.setTimeout = true;
+          this.setTimeoutDebound = true;
         }, 2000);
       }
     },
@@ -119,6 +119,8 @@ export const useSongStore = defineStore("song", {
         });
         return;
       }
+      //更新当前歌曲的结束时间
+      this.endTime = nowTimeFu(this.currentSong.time!);
       this.innerAudioContext.play();
       this.playBtn = false;
       this.transitionBtn = true;
@@ -160,6 +162,9 @@ export const useSongStore = defineStore("song", {
       this.innerAudioContext.seek(resTime);
       this.startTime = format(resTime);
       this.play();
+    },
+    test() {
+      console.log(1);
     },
   },
 });

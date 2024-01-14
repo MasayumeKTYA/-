@@ -61,7 +61,7 @@
         activeColor="pink"
       />
     </view>
-    <view class="line_font">{{ endTime }}</view>
+    <view class="line_font">{{ SongStore.endTime }}</view>
   </view>
   <view class="bottom">
     <!-- <wd-icon name="refresh1" size="22px" ></wd-icon> -->
@@ -105,7 +105,7 @@ import Song from "@/component/song/song.vue";
 import { ref } from "vue";
 import { useNavStore } from "@/stores/nav";
 import { useSongStore } from "@/stores/song";
-import { nowTimeFu } from "@/tool/index";
+
 const { statusHeight, statusHeightNum } = useNavStore();
 const SongStore = useSongStore();
 function back() {
@@ -117,7 +117,6 @@ function back() {
 if (SongStore.currentSong.time === undefined) {
   throw new Error("SongStore.currentSong.time not found");
 }
-const endTime = ref<string>(nowTimeFu(SongStore.currentSong.time));
 
 // SongStore.innerAudioContext.onPlay(() => {
 //   console.log(SongStore.innerAudioContext.currentTime);
@@ -136,6 +135,7 @@ onUnload(() => {
 </script>
 
 <style lang="scss">
+@import "../../app.scss";
 page {
   background-image: url("/static/img/detailBG.jpg");
   background-size: cover;

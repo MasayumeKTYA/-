@@ -72,11 +72,15 @@ const props = defineProps({
 });
 
 store.innerAudioContext.onEnded(() => {
-  store.debound();
+  store.debound(store.nextSong);
+});
+store.innerAudioContext.onPause(() => {
+  store.debound(store.pause);
 });
 </script>
 
 <style lang="scss">
+@import "../../app.scss";
 .audio_box {
   width: 750rpx;
   height: 60px;
