@@ -9,7 +9,17 @@ export function nowTimeFu(milliseconds: number) {
   const formattedTime = `${padZero(minutes)}:${padZero(seconds)}`;
   return formattedTime;
 }
+//秒转分钟
+export function TimeFormatMinute(milliseconds: number) {
+  let minutes = Math.floor(milliseconds / 60);
+  let seconds = milliseconds - minutes * 60;
 
+  const formattedTime = `${padZero(minutes)}:${padZero(seconds)}`;
+  // const formattedTime = "";
+  console.log(formattedTime);
+
+  return formattedTime;
+}
 function padZero(value: number) {
   return String(value).padStart(2, "0");
 }
